@@ -4,10 +4,14 @@
 
 This script is idempotent: if AGENTS.md or .agent/template/PLAN.md already exist, they will be left unchanged.
 
-
-**defult**
+**default**
 ```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash
+```
+
+**Claude Code**
+```sh
+curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- claude
 ```
 
 **Codex**
@@ -20,11 +24,6 @@ curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execpl
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- cursor
 ```
 
-**Claude Code**
-```sh
-curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- claude
-```
-
 **OpenCode**
 ```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- opencode
@@ -34,6 +33,8 @@ curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execpl
 ```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- copilot
 ```
+
 ---
 ## ref
+
 [exec_plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
