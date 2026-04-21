@@ -76,6 +76,15 @@ has_marker() {
   grep -q "$MARKER" "$file" 2>/dev/null
 }
 
+# 检查是否应该替换文件（文件被覆盖/简化的情况）
+should_replace() {
+  local file="$1"
+  # 如果文件为空，或只有空行/简单标题，认为是被覆盖了
+  local lines
+  lines=$(wc -l < "$file" 2>/dev/null || echo "0")
+  [[ "$lines" -le 3 ]]
+}
+
 ensure_dir() {
   mkdir -p "$1"
 }
@@ -285,7 +294,22 @@ $INTRO_CONTENT
 $EXECPLAN_CONTENT
 HEADER
       log "创建: $file"
-    elif ! has_marker "$file"; then
+    elif has_marker "$file"; then
+      log "跳过: $file (已包含 Brainstorming)"
+    elif should_replace "$file"; then
+      cat > "$file" << HEADER
+# Project Instructions
+
+## Brainstorming Ideas Into Designs (Pre‑Implementation)
+
+$INTRO_CONTENT
+
+## ExecPlans (Design → Implementation)
+
+$EXECPLAN_CONTENT
+HEADER
+      log "替换: $file (检测到文件被覆盖，已恢复)"
+    else
       cat >> "$file" << APPEND
 
 ---
@@ -299,8 +323,6 @@ $INTRO_CONTENT
 $EXECPLAN_CONTENT
 APPEND
       log "追加: $file"
-    else
-      log "跳过: $file (已包含 Brainstorming)"
     fi
   done
 
@@ -344,7 +366,44 @@ Agents MUST:
 - Then follow the ExecPlan rules in .agent/template/PLAN.md _to the letter_ during implementation.
 AGENTS
       log "创建: $agent_file"
-    elif ! has_marker "$agent_file"; then
+    elif has_marker "$agent_file"; then
+      log "跳过: $agent_file (已包含 Brainstorming)"
+    elif should_replace "$agent_file"; then
+      cat > "$agent_file" << AGENTS
+# Repo Agents Instructions
+
+This repository uses a two‑phase workflow:
+
+1. Brainstorming Ideas Into Designs (pre‑implementation)
+2. ExecPlans (design → implementation)
+
+## 1. Brainstorming Ideas Into Designs (Pre‑Implementation Phase)
+
+$INTRO_CONTENT
+
+When starting ANY new task (feature, refactor, config, documentation structure, etc.) you MUST:
+
+1. Explore the current project context (files, docs, recent changes).
+2. Ask clarifying questions one at a time until the goal and constraints are clear.
+3. Propose one or more design options with trade‑offs and a recommendation.
+4. Present a concise design/spec and get explicit user approval before any implementation.
+
+## 2. ExecPlans (Design → Implementation Phase)
+
+When writing complex features or significant refactors, AFTER the design has been approved,
+use an ExecPlan (as described in .agent/template/PLAN.md) from design to implementation.
+
+ExecPlans are living documents that:
+- Are fully self‑contained (no external memory beyond the working tree and the plan file itself).
+- Contain milestones, validation steps, and logs of decisions.
+- Allow a coding agent to continue work or restart from ONLY the ExecPlan + repo state.
+
+Agents MUST:
+- Always follow the Brainstorming phase BEFORE creating or modifying ExecPlans.
+- Then follow the ExecPlan rules in .agent/template/PLAN.md _to the letter_ during implementation.
+AGENTS
+      log "替换: $agent_file (检测到文件被覆盖，已恢复)"
+    else
       cat >> "$agent_file" << AGENTS
 
 ---
@@ -382,8 +441,6 @@ Agents MUST:
 - Then follow the ExecPlan rules in .agent/template/PLAN.md _to the letter_ during implementation.
 AGENTS
       log "追加: $agent_file"
-    else
-      log "跳过: $agent_file (已包含 Brainstorming)"
     fi
   fi
 
