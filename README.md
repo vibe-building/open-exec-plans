@@ -38,3 +38,6 @@ curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execpl
 ## ref
 
 [exec_plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
+
+LICENSE: 
+MIT
