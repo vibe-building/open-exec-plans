@@ -1,23 +1,35 @@
 # vibe-plans
 
 ## use
-# 默认 codex 模式
+**defult**
+```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash
+```
 
-# 指定 Codex
+**Codex**
+```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- codex
+```
 
-# 指定 Cursor
+**Cursor**
+```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- cursor
+```
 
-# 指定 Claude Code
+**Claude Code**
+```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- claude
+```
 
-# 指定 OpenCode
+**OpenCode**
+```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- opencode
+```
 
-# 指定 Copilot-CLI
+**Copilot-CLI**
+```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- copilot
-
+```
+---
 ## ref
 [exec_plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
