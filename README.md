@@ -1,4 +1,6 @@
-# vibe-plans
+<div align="center">
+  <h1 align="center">exec-plans</h1>
+</div>
 
 ## use
 
